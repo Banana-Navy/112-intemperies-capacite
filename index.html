@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Étude Banana Navy des données parlementaires belges sur les volumes d'appels 112 et 1722 pendant les intempéries, structurées pour le dimensionnement de voicebots.">
+  <title>Banana Navy — Charge 112 / 1722 et bots d'urgence</title>
+  <style>
+    :root {
+      --ink: #10233f;
+      --muted: #5e6f86;
+      --line: #dce5ef;
+      --soft: #f3f7fb;
+      --blue: #0759d6;
+      --blue-dark: #063c8c;
+      --red: #c83434;
+      --green: #157f5b;
+      --white: #fff;
+      --shadow: 0 18px 50px rgba(16, 35, 63, .09);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--white);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    a { color: var(--blue); }
+    button, input, select { font: inherit; }
+    .wrap { width: min(1180px, calc(100% - 36px)); margin-inline: auto; }
+
+    header {
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 82% 18%, rgba(7, 89, 214, .12), transparent 28%),
+        linear-gradient(135deg, #ffffff 0%, #f8fbff 60%, #edf5ff 100%);
+      padding: 28px 0 74px;
+      border-bottom: 1px solid var(--line);
+    }
+    nav { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .brand { display: inline-flex; align-items: center; }
+    .brand img { display: block; width: 118px; height: 54px; object-fit: contain; object-position: left center; }
+    nav a { color: var(--ink); text-decoration: none; font-size: .92rem; margin-left: 24px; }
+    .hero { max-width: 800px; padding-top: 70px; }
+    .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: .76rem; font-weight: 800; color: var(--blue); }
+    h1 { margin: 12px 0 20px; font-size: clamp(2.3rem, 6vw, 4.8rem); line-height: 1.03; letter-spacing: -.055em; }
+    .hero p { max-width: 700px; margin: 0; color: var(--muted); font-size: clamp(1rem, 2vw, 1.22rem); }
+    .hero-note { display: inline-flex; gap: 9px; align-items: center; margin-top: 25px; padding: 9px 13px; color: var(--blue-dark); border: 1px solid #b9d3f8; border-radius: 999px; background: #f1f7ff; font-size: .86rem; }
+
+    main { padding-bottom: 80px; }
+    .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: -37px; }
+    .metric { background: var(--white); padding: 24px; border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); }
+    .metric .value { display: block; color: var(--blue-dark); font-size: clamp(1.55rem, 3vw, 2.25rem); font-weight: 850; letter-spacing: -.04em; }
+    .metric .label { display: block; margin-top: 4px; color: var(--muted); font-size: .85rem; }
+
+    section { padding-top: 74px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 28px; margin-bottom: 24px; }
+    h2 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.6rem); letter-spacing: -.04em; line-height: 1.15; }
+    .section-head p { max-width: 560px; margin: 0; color: var(--muted); }
+
+    .table-shell { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; }
+    table { width: 100%; border-collapse: collapse; min-width: 820px; }
+    th, td { text-align: left; padding: 16px 18px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); background: var(--soft); font-size: .76rem; text-transform: uppercase; letter-spacing: .08em; }
+    tr:last-child td { border-bottom: 0; }
+    td strong { font-size: 1.06rem; }
+    .badge { display: inline-block; padding: 3px 8px; border-radius: 999px; font-size: .72rem; font-weight: 800; white-space: nowrap; }
+    .low { color: var(--green); background: #e7f6f0; }
+    .high { color: #9a5512; background: #fff1df; }
+    .extreme { color: var(--red); background: #ffe8e8; }
+
+    .calculator { display: grid; grid-template-columns: 1.08fr .92fr; border-radius: 22px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--line); }
+    .calculator-form { padding: 34px; background: var(--white); }
+    .calculator-result { padding: 34px; color: var(--white); background: linear-gradient(145deg, var(--blue-dark), var(--blue)); }
+    .fields { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 26px; }
+    label { display: grid; gap: 7px; color: var(--muted); font-size: .82rem; font-weight: 700; }
+    input, select { width: 100%; min-height: 46px; padding: 10px 12px; color: var(--ink); background: var(--white); border: 1px solid #cbd7e5; border-radius: 9px; }
+    input:focus, select:focus { outline: 3px solid rgba(7, 89, 214, .15); border-color: var(--blue); }
+    .result-main { margin-top: 24px; font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 850; letter-spacing: -.06em; line-height: 1; }
+    .result-label { color: #cfe2ff; }
+    .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
+    .result-card { padding: 15px; border: 1px solid rgba(255,255,255,.2); border-radius: 12px; background: rgba(255,255,255,.08); }
+    .result-card b { display: block; font-size: 1.35rem; }
+    .result-card span { color: #cfe2ff; font-size: .75rem; }
+
+    .questions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    article { padding: 25px; border: 1px solid var(--line); border-radius: 16px; background: var(--white); }
+    article .meta { color: var(--blue); font-size: .76rem; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; }
+    article h3 { margin: 8px 0 10px; font-size: 1.16rem; line-height: 1.3; }
+    article p { margin: 0; color: var(--muted); font-size: .92rem; }
+    article .numbers { margin-top: 15px; color: var(--ink); font-weight: 750; }
+    article a { display: inline-block; margin-top: 17px; font-size: .86rem; font-weight: 750; text-decoration: none; }
+
+    .warning { display: grid; grid-template-columns: auto 1fr; gap: 16px; padding: 22px; border-left: 5px solid var(--blue); border-radius: 12px; background: #f1f7ff; }
+    .warning strong { display: block; margin-bottom: 4px; }
+    .warning p { margin: 0; color: var(--muted); }
+
+    .dev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .dev-card { padding: 23px; border-radius: 15px; background: var(--soft); }
+    .dev-card b { display: block; margin-bottom: 7px; }
+    .dev-card p { margin: 0; color: var(--muted); font-size: .9rem; }
+    code { padding: 2px 6px; border-radius: 5px; background: #e6edf6; font-size: .84em; }
+
+    footer { padding: 28px 0; color: var(--muted); background: var(--soft); border-top: 1px solid var(--line); font-size: .82rem; }
+
+    @media (max-width: 850px) {
+      nav .links { display: none; }
+      .summary-grid { grid-template-columns: repeat(2, 1fr); }
+      .calculator { grid-template-columns: 1fr; }
+      .questions, .dev-grid { grid-template-columns: 1fr; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 12px; }
+    }
+    @media (max-width: 520px) {
+      .wrap { width: min(100% - 24px, 1180px); }
+      .summary-grid, .fields { grid-template-columns: 1fr; }
+      header { padding-bottom: 56px; }
+      .hero { padding-top: 48px; }
+      .calculator-form, .calculator-result { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav>
+        <a class="brand" href="#" aria-label="Banana Navy — accueil">
+          <img src="assets/banana-navy-logo.png" alt="Banana Navy">
+        </a>
+        <div class="links">
+          <a href="#chiffres">Chiffres</a>
+          <a href="#calculateur">Calculateur</a>
+          <a href="#sources">Sources</a>
+          <a href="#developpement">Implications bots</a>
+        </div>
+      </nav>
+      <div class="hero">
+        <div class="eyebrow">Belgique · 112 / 1722 · Données parlementaires</div>
+        <h1>Dimensionner nos bots pour les pics d’intempéries.</h1>
+        <p>Une base de travail sourcée pour estimer les volumes, la capacité humaine nécessaire et les stratégies de débordement des assistants vocaux.</p>
+        <div class="hero-note">● Données observées entre 2017 et 2022</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="summary-grid" aria-label="Chiffres clés">
+      <div class="metric"><span class="value">80 807</span><span class="label">tentatives 1722 en une journée · mars 2019</span></div>
+      <div class="metric"><span class="value">49 247</span><span class="label">appels 1722 en deux jours · Eunice 2022</span></div>
+      <div class="metric"><span class="value">12 135</span><span class="label">demandes en ligne · Eunice 2022</span></div>
+      <div class="metric"><span class="value">1–2 min</span><span class="label">durée minimale annoncée par appel</span></div>
+    </div>
+
+    <section id="chiffres">
+      <div class="section-head">
+        <h2>Scénarios observés</h2>
+        <p>Les volumes sont issus de réponses parlementaires. Ils servent de bornes de charge, pas de prévisions météorologiques.</p>
+      </div>
+      <div class="table-shell">
+        <table>
+          <thead><tr><th>Épisode</th><th>Période</th><th>Canal</th><th>Volume</th><th>Niveau</th><th>Remarque</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Première activation</strong></td><td>12 sept. 2017</td><td>112 / 100 / 1722</td><td><strong>≈ 300</strong></td><td><span class="badge low">Faible</span></td><td>Épisode moins intense qu’annoncé.</td></tr>
+            <tr><td><strong>Intempéries de janvier</strong></td><td>17–19 jan. 2018</td><td>1722 + report vers 112</td><td>Non publié dans la réponse retrouvée</td><td><span class="badge high">Saturation signalée</span></td><td>Attente rapportée supérieure à une heure.</td></tr>
+            <tr><td><strong>Tempête de mars</strong></td><td>9–12 mars 2019</td><td>1722</td><td><strong>88 475</strong> sur 4 jours</td><td><span class="badge extreme">Extrême</span></td><td>Dont 80 807 le dimanche; 30 opérateurs supplémentaires.</td></tr>
+            <tr><td><strong>Tempête Ciara</strong></td><td>févr. 2020</td><td>1722</td><td><strong>&gt; 50 000</strong></td><td><span class="badge extreme">Extrême</span></td><td>Inclut les rappels répétés d’un même appelant.</td></tr>
+            <tr><td><strong>Tempête Eunice</strong></td><td>18–19 févr. 2022</td><td>1722 téléphone</td><td><strong>49 247</strong></td><td><span class="badge extreme">Extrême</span></td><td>Capacité terrain dépassée à certains moments.</td></tr>
+            <tr><td><strong>Tempête Eunice</strong></td><td>18–19 févr. 2022</td><td>Guichet web 1722</td><td><strong>12 135</strong></td><td><span class="badge high">Élevé</span></td><td>Canal asynchrone à intégrer au dimensionnement.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="calculateur">
+      <div class="section-head">
+        <h2>Calculateur de capacité</h2>
+        <p>Estimation mécanique à partir du volume, de la durée moyenne et de la fenêtre de traitement. Elle n’inclut pas les pauses, formations ou indisponibilités.</p>
+      </div>
+      <div class="calculator">
+        <div class="calculator-form">
+          <h3>Hypothèses de charge</h3>
+          <div class="fields">
+            <label>Scénario
+              <select id="scenario">
+                <option value="80807">Pic mars 2019 · 80 807</option>
+                <option value="49247">Eunice téléphone · 49 247</option>
+                <option value="61382">Eunice multicanal · 61 382</option>
+                <option value="50000">Ciara · 50 000</option>
+                <option value="300">Activation faible · 300</option>
+                <option value="custom">Personnalisé</option>
+              </select>
+            </label>
+            <label>Nombre de sollicitations
+              <input id="calls" type="number" min="1" value="80807">
+            </label>
+            <label>Durée moyenne par traitement (min)
+              <input id="duration" type="number" min="0.1" step="0.1" value="1.5">
+            </label>
+            <label>Fenêtre cible (heures)
+              <input id="window" type="number" min="1" step="1" value="24">
+            </label>
+            <label>Taux d’automatisation du bot (%)
+              <input id="automation" type="number" min="0" max="100" step="1" value="70">
+            </label>
+            <label>Marge de sécurité (%)
+              <input id="buffer" type="number" min="0" max="200" step="5" value="20">
+            </label>
+          </div>
+        </div>
+        <div class="calculator-result" aria-live="polite">
+          <div class="eyebrow">Besoin humain après automatisation</div>
+          <div class="result-main" id="agents">31</div>
+          <div class="result-label">agents simultanés estimés</div>
+          <div class="result-grid">
+            <div class="result-card"><b id="humanCalls">24 242</b><span>traitements humains</span></div>
+            <div class="result-card"><b id="botCalls">56 565</b><span>traitements automatisés</span></div>
+            <div class="result-card"><b id="hours">606 h</b><span>heures-opérateur avec marge</span></div>
+            <div class="result-card"><b id="rate">3 367/h</b><span>sollicitations entrantes moyennes</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="warning">
+        <div aria-hidden="true">⚠️</div>
+        <div><strong>Ne pas confondre appels, tentatives et interventions</strong><p>Les chiffres 1722 incluent parfois plusieurs rappels du même citoyen. Un appel ne génère pas toujours une fiche d’intervention. Les 45 637 interventions annoncées pendant Eunice mesurent l’activité terrain, pas le nombre de conversations distinctes.</p></div>
+      </div>
+    </section>
+
+    <section id="developpement">
+      <div class="section-head">
+        <h2>Implications pour nos bots</h2>
+        <p>Les choix techniques doivent absorber le pic tout en maintenant une voie prioritaire et immédiate pour le danger vital.</p>
+      </div>
+      <div class="dev-grid">
+        <div class="dev-card"><b>1. Triage immédiat</b><p>Détecter dès l’ouverture : danger vital, incendie actif, blessé, eau proche d’installations électriques. Transfert prioritaire vers le 112.</p></div>
+        <div class="dev-card"><b>2. Déduplication</b><p>Utiliser téléphone, adresse, horodatage et type de sinistre pour reconnaître les rappels et rattacher l’appel à un dossier existant.</p></div>
+        <div class="dev-card"><b>3. Collecte asynchrone</b><p>Pour les dégâts non urgents, proposer SMS ou formulaire avec photos et géolocalisation, puis fournir un numéro de dossier.</p></div>
+        <div class="dev-card"><b>4. Message de charge</b><p>Annoncer honnêtement la file et l’absence de délai garanti. Ne jamais laisser croire qu’une intervention est planifiée sans confirmation du dispatching.</p></div>
+        <div class="dev-card"><b>5. Observabilité</b><p>Suivre <code>attempts</code>, <code>unique_callers</code>, <code>completed_intakes</code>, <code>duplicates</code>, <code>transfers_112</code> et <code>abandon_rate</code>.</p></div>
+        <div class="dev-card"><b>6. Mode dégradé</b><p>Prévoir une réponse courte si les API terrain sont indisponibles : collecte minimale, conservation sûre, accusé de réception sans fausse promesse.</p></div>
+      </div>
+    </section>
+
+    <section id="sources">
+      <div class="section-head">
+        <h2>Questions parlementaires</h2>
+        <p>Liens directs vers les comptes rendus et bulletins de la Chambre utilisés pour cette synthèse.</p>
+      </div>
+      <div class="questions">
+        <article><div class="meta">2017 · Mise en place</div><h3>Fonctionnement prévu du numéro 1722</h3><p>Traitement par les opérateurs 112/100 et priorité technique donnée aux appels urgents.</p><a href="https://www.dekamer.be/QRVA/pdf/54/54K0123.pdf" target="_blank" rel="noreferrer">Ouvrir le QRVA 54-123 →</a></article>
+        <article><div class="meta">12 septembre 2017 · Questions 20621 & 20691</div><h3>Première activation du 1722</h3><p>Jean-Jacques Flahaux et Olivier Maingain interrogent le ministre sur le bilan du dispositif.</p><div class="numbers">≈ 300 appels dans le pays</div><a href="https://www.lachambre.be/doc/CCRI/pdf/54/ic755x.pdf" target="_blank" rel="noreferrer">Ouvrir le compte rendu →</a></article>
+        <article><div class="meta">24 janvier 2018 · Question 2891</div><h3>Récentes activations du 1722</h3><p>Emmanuel Burton demande les volumes par activation, par province et via le canal internet.</p><a href="https://www.dekamer.be/QRVA/pdf/54/54K0147.pdf" target="_blank" rel="noreferrer">Ouvrir le QRVA 54-147 →</a></article>
+        <article><div class="meta">28 mars 2018 · Question 3125 / QO 23399</div><h3>Engorgement des centres d’appel</h3><p>Stefaan Van Hecke demande les volumes 112/1722 des 17–19 janvier et leur comparaison avec un jour normal.</p><a href="https://www.dekamer.be/QRVA/pdf/54/54K0155.pdf" target="_blank" rel="noreferrer">Ouvrir le QRVA 54-155 →</a></article>
+        <article><div class="meta">Avril 2018 · Statistiques historiques</div><h3>Appels 100, 101, 112 et 1722</h3><p>Volumes 2013–2018, faux appels, activations du 1722, personnel et coût de traitement.</p><a href="https://www.lachambre.be/QRVA/pdf/54/54K0157.pdf" target="_blank" rel="noreferrer">Ouvrir le QRVA 54-157 →</a></article>
+        <article><div class="meta">14 mars 2019 · Séance plénière, point 09</div><h3>Pic extrême et personnel des centrales</h3><p>Karin Jiroflée interroge le ministre sur les attentes au 1722, 112 et 101.</p><div class="numbers">80 807 appels le dimanche</div><a href="https://www.lachambre.be/doc/PCRI/pdf/54/ip274.pdf" target="_blank" rel="noreferrer">Ouvrir le compte rendu →</a></article>
+        <article><div class="meta">19 février 2020 · Question 55003305C</div><h3>Tempête Ciara et centres d’urgence</h3><p>Éric Thiébaut demande le nombre d’appels reçus, traités et restés sans réponse.</p><div class="numbers">Plus de 50 000 compositions du 1722</div><a href="https://www.dekamer.be/doc/CCRI/html/55/ic116x.html" target="_blank" rel="noreferrer">Ouvrir le compte rendu →</a></article>
+        <article><div class="meta">23 février 2022 · Questions 55025548C & 55025576C</div><h3>Tempête Eunice et numéro 1722</h3><p>Nabil Boukili et Éric Thiébaut interrogent la ministre sur la charge et la coordination.</p><div class="numbers">49 247 appels + 12 135 demandes web</div><a href="https://www.dekamer.be/doc/CCRI/html/55/ic709x.html" target="_blank" rel="noreferrer">Ouvrir le compte rendu →</a></article>
+        <article><div class="meta">Mars 2022 · Caroline Taquin</div><h3>Capacité horaire et renforts humains</h3><p>Question explicite sur le nombre d’agents et la capacité par heure en alerte jaune ou orange; chiffres non fournis oralement.</p><a href="https://www.lachambre.be/doc/CCRI/pdf/55/ic716x.pdf" target="_blank" rel="noreferrer">Ouvrir le compte rendu →</a></article>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="wrap">Banana Navy · Engineering &amp; AI · Document de travail pour le développement de bots · Sources : Chambre des représentants de Belgique · Dernière structuration : août 2026</div></footer>
+
+  <script>
+    const el = id => document.getElementById(id);
+    const fmt = new Intl.NumberFormat('fr-BE', { maximumFractionDigits: 0 });
+    const fields = ['calls', 'duration', 'window', 'automation', 'buffer'];
+
+    function calculate() {
+      const calls = Math.max(0, Number(el('calls').value) || 0);
+      const duration = Math.max(.1, Number(el('duration').value) || 0);
+      const windowHours = Math.max(1, Number(el('window').value) || 1);
+      const automation = Math.min(100, Math.max(0, Number(el('automation').value) || 0)) / 100;
+      const buffer = 1 + Math.max(0, Number(el('buffer').value) || 0) / 100;
+      const botCalls = Math.round(calls * automation);
+      const humanCalls = calls - botCalls;
+      const humanHours = humanCalls * duration / 60 * buffer;
+      const agents = Math.ceil(humanHours / windowHours);
+
+      el('agents').textContent = fmt.format(agents);
+      el('humanCalls').textContent = fmt.format(humanCalls);
+      el('botCalls').textContent = fmt.format(botCalls);
+      el('hours').textContent = fmt.format(humanHours) + ' h';
+      el('rate').textContent = fmt.format(calls / windowHours) + '/h';
+    }
+
+    el('scenario').addEventListener('change', event => {
+      if (event.target.value !== 'custom') el('calls').value = event.target.value;
+      calculate();
+    });
+    fields.forEach(id => el(id).addEventListener('input', calculate));
+    el('calls').addEventListener('input', () => { el('scenario').value = 'custom'; });
+    calculate();
+  </script>
+</body>
+</html>
