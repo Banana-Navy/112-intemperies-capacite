@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Analyse Banana Navy des volumes d'appels officiels 112, 1722, 1733 et des crises récentes en Belgique.">
+  <title>Banana Navy — Analyse des volumes d’appels de crise</title>
+  <style>
+    :root{--ink:#10233f;--muted:#5d6d82;--line:#dce5ef;--soft:#f4f8fc;--blue:#0759d6;--navy:#073b82;--white:#fff;--green:#117858;--shadow:0 18px 55px rgba(16,35,63,.09)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:var(--white);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}a{color:var(--blue)}.wrap{width:min(1120px,calc(100% - 36px));margin:auto}
+    header{padding:26px 0 78px;background:radial-gradient(circle at 82% 15%,rgba(7,89,214,.12),transparent 28%),linear-gradient(135deg,#fff,#f7fbff 65%,#edf5ff);border-bottom:1px solid var(--line)}
+    nav{display:flex;justify-content:space-between;align-items:center;gap:24px}.logo{width:118px;height:58px;object-fit:contain}.nav-note{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:750}
+    .hero{padding-top:72px;max-width:850px}.eyebrow{color:var(--blue);font-size:.76rem;font-weight:850;letter-spacing:.14em;text-transform:uppercase}h1{margin:13px 0 20px;font-size:clamp(2.4rem,6vw,4.7rem);line-height:1.02;letter-spacing:-.055em}.lead{max-width:760px;margin:0;color:var(--muted);font-size:clamp(1.05rem,2vw,1.27rem)}
+    main{padding-bottom:80px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:-35px}.metric{padding:23px;background:#fff;border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow)}.metric strong{display:block;color:var(--navy);font-size:clamp(1.55rem,3vw,2.2rem);letter-spacing:-.04em}.metric span{display:block;margin-top:5px;color:var(--muted);font-size:.82rem}
+    section{padding-top:72px}.head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:24px}.head h2{margin:0;font-size:clamp(1.7rem,4vw,2.55rem);line-height:1.15;letter-spacing:-.04em}.head p{max-width:540px;margin:0;color:var(--muted)}
+    .executive{display:grid;grid-template-columns:1.05fr .95fr;overflow:hidden;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}.executive-main{padding:34px}.executive-main p{color:var(--muted)}.executive-main p:last-child{margin-bottom:0}.executive-side{padding:34px;color:#fff;background:linear-gradient(145deg,var(--navy),var(--blue))}.executive-side h3{margin-top:0}.executive-side ul{margin:18px 0 0;padding-left:20px}.executive-side li+li{margin-top:12px}
+    .table-shell{overflow-x:auto;border:1px solid var(--line);border-radius:15px}table{width:100%;min-width:790px;border-collapse:collapse}th,td{padding:16px 18px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}th{color:var(--muted);background:var(--soft);font-size:.74rem;text-transform:uppercase;letter-spacing:.08em}tr:last-child td{border-bottom:0}.tag{display:inline-block;padding:3px 8px;color:var(--green);background:#e7f6f0;border-radius:99px;font-size:.7rem;font-weight:800;white-space:nowrap}
+    .reading{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.card{padding:25px;border:1px solid var(--line);border-radius:15px}.card .n{color:var(--blue);font-size:.75rem;font-weight:850;text-transform:uppercase;letter-spacing:.08em}.card h3{margin:8px 0 9px;font-size:1.12rem}.card p{margin:0;color:var(--muted);font-size:.91rem}
+    .case{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px}.case-highlight{padding:30px;color:#fff;background:var(--navy);border-radius:18px}.case-highlight strong{display:block;font-size:clamp(2.8rem,6vw,5rem);letter-spacing:-.06em;line-height:1}.case-highlight span{display:block;margin-top:8px;color:#cfe2ff}.case-copy{padding:30px;background:var(--soft);border-radius:18px}.case-copy h3{margin-top:0}.case-copy p{color:var(--muted)}
+    .limits{padding:24px;border-left:5px solid var(--blue);border-radius:12px;background:#f1f7ff}.limits strong{display:block;margin-bottom:5px}.limits p{margin:0;color:var(--muted)}
+    .sources{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.source{padding:18px 20px;border:1px solid var(--line);border-radius:12px}.source b{display:block}.source span{display:block;margin:4px 0 10px;color:var(--muted);font-size:.83rem}.source a{font-size:.84rem;font-weight:750;text-decoration:none}
+    .cta{display:flex;align-items:center;justify-content:space-between;gap:30px;padding:34px;color:#fff;background:linear-gradient(135deg,#071d3c,#0759d6);border-radius:20px}.cta h2{margin:0 0 8px;color:#fff}.cta p{max-width:650px;margin:0;color:#d8e8ff}.cta-badge{flex:none;padding:11px 15px;border:1px solid rgba(255,255,255,.25);border-radius:99px;background:rgba(255,255,255,.09);font-weight:750}
+    footer{padding:26px 0;color:var(--muted);background:var(--soft);border-top:1px solid var(--line);font-size:.8rem}
+    @media(max-width:850px){.metrics{grid-template-columns:repeat(2,1fr)}.executive,.case{grid-template-columns:1fr}.reading{grid-template-columns:1fr}.sources{grid-template-columns:1fr}.head{display:block}.head p{margin-top:10px}.cta{display:block}.cta-badge{display:inline-block;margin-top:20px}}
+    @media(max-width:500px){.wrap{width:min(100% - 24px,1120px)}.metrics{grid-template-columns:1fr}.hero{padding-top:50px}.nav-note{display:none}}
+    @media print{.metric,.executive{box-shadow:none}a{text-decoration:none;color:inherit}header{padding-bottom:45px}section{padding-top:45px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav><img class="logo" src="assets/banana-navy-logo.png" alt="Banana Navy"><div class="nav-note">Analyse préliminaire · Belgique · Août 2026</div></nav>
+      <div class="hero">
+        <div class="eyebrow">Volumes d’appels publics et gestion de crise</div>
+        <h1>Ce que les chiffres officiels nous apprennent.</h1>
+        <p class="lead">Banana Navy a analysé les données parlementaires et institutionnelles disponibles sur les appels 112, 1722 et 1733, ainsi que les principaux épisodes d’intempéries et d’incendies en Belgique.</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="metrics">
+      <div class="metric"><strong>80 807</strong><span>tentatives vers le 1722 en une journée · mars 2019</span></div>
+      <div class="metric"><strong>4 000/h</strong><span>pic d’appels annoncé pendant la canicule · juin 2026</span></div>
+      <div class="metric"><strong>49 247</strong><span>appels 1722 pendant Eunice · 18–19 février 2022</span></div>
+      <div class="metric"><strong>≈ 3 000 ha</strong><span>touchés par l’incendie des Hautes Fagnes · août 2026</span></div>
+    </div>
+
+    <section>
+      <div class="executive">
+        <div class="executive-main">
+          <div class="eyebrow">Synthèse exécutive</div>
+          <h2>La difficulté vient moins de la moyenne que du pic.</h2>
+          <p>Les volumes publics montrent une concentration très forte des appels lors des premières heures d’une crise. Pendant une tempête, une canicule ou un incendie majeur, les citoyens rappellent lorsqu’ils n’obtiennent pas immédiatement de réponse, ce qui amplifie mécaniquement la charge.</p>
+          <p>Les mêmes centrales et, souvent, les mêmes opérateurs prennent en charge plusieurs parcours : urgence 112, dégâts non urgents 1722 et garde médicale 1733. Le 112 reste prioritaire, mais les flux non urgents pèsent directement sur la capacité disponible.</p>
+        </div>
+        <div class="executive-side">
+          <h3>Trois constats</h3>
+          <ul>
+            <li>Les flux peuvent doubler ou tripler en situation exceptionnelle.</li>
+            <li>Un canal d’information séparé réduit les appels improductifs au 112.</li>
+            <li>Le dimensionnement doit reposer sur le pic minute, pas uniquement sur le total journalier.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="head"><h2>Épisodes de référence</h2><p>Une sélection des données les plus utiles pour comprendre les ordres de grandeur et la nature des flux.</p></div>
+      <div class="table-shell">
+        <table>
+          <thead><tr><th>Épisode</th><th>Canal</th><th>Volume documenté</th><th>Lecture</th><th>Source</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Tempête · mars 2019</strong></td><td>1722</td><td><strong>80 807 appels le dimanche</strong></td><td>88 475 tentatives sur quatre jours; rappels vers 112 et 101 en cas d’attente.</td><td><span class="tag">Chambre</span></td></tr>
+            <tr><td><strong>Tempête Ciara · 2020</strong></td><td>1722</td><td><strong>&gt; 50 000 compositions</strong></td><td>Le total inclut les tentatives répétées d’un même appelant.</td><td><span class="tag">Chambre</span></td></tr>
+            <tr><td><strong>Tempête Eunice · 2022</strong></td><td>1722 + web</td><td><strong>49 247 + 12 135</strong></td><td>Le canal numérique a absorbé près de 20 % des sollicitations recensées.</td><td><span class="tag">Chambre</span></td></tr>
+            <tr><td><strong>COVID · mars 2020</strong></td><td>1733</td><td><strong>≈ 10 000–11 000/jour</strong></td><td>Record visible dans le rapport officiel; nombreux appels de simple information.</td><td><span class="tag">SPF Santé</span></td></tr>
+            <tr><td><strong>Canicule · juin 2026</strong></td><td>112 + 1733</td><td><strong>19 300/jour · pic 4 000/h</strong></td><td>Environ 6 000 appels par jour en situation habituelle selon le ministre.</td><td><span class="tag">Chambre</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="head"><h2>Notre lecture opérationnelle</h2><p>Ce que ces statistiques impliquent pour une solution de traitement automatisé et de débordement.</p></div>
+      <div class="reading">
+        <div class="card"><div class="n">01 · Priorisation</div><h3>Protéger l’urgence vitale</h3><p>Le système doit identifier immédiatement une situation dangereuse et préserver un transfert prioritaire vers le 112.</p></div>
+        <div class="card"><div class="n">02 · Déduplication</div><h3>Limiter les rappels</h3><p>Un numéro de dossier et une information claire sur le suivi réduisent les tentatives répétées qui gonflent les volumes bruts.</p></div>
+        <div class="card"><div class="n">03 · Information</div><h3>Séparer urgence et questions</h3><p>Le modèle du 1771 pendant l’incendie des Hautes Fagnes confirme l’intérêt d’un canal dédié à l’information de crise.</p></div>
+        <div class="card"><div class="n">04 · Multicanal</div><h3>Basculer vers l’asynchrone</h3><p>Pour les situations non urgentes, SMS et formulaire web peuvent collecter adresse, photos et nature du problème sans monopoliser une ligne.</p></div>
+        <div class="card"><div class="n">05 · Capacité</div><h3>Mesurer à la minute</h3><p>Les appels par jour ne suffisent pas. Les décisions de capacité doivent intégrer arrivées/minute, durée P95 et sessions concurrentes maximales.</p></div>
+        <div class="card"><div class="n">06 · Traçabilité</div><h3>Ne pas créer de fausse promesse</h3><p>L’accusé de réception doit distinguer une demande enregistrée d’une intervention réellement acceptée par les services compétents.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="head"><h2>Hautes Fagnes : un cas révélateur</h2><p>La crise d’août 2026 illustre l’articulation nécessaire entre secours, information et orientation médicale.</p></div>
+      <div class="case">
+        <div class="case-highlight"><strong>500</strong><span>intervenants environ mobilisés, avec plus de 120 véhicules et des renforts internationaux.</span></div>
+        <div class="case-copy"><h3>Le 1771 a protégé la mission du 112</h3><p>Face aux nombreuses questions et à un volume important d’appels, les autorités ont activé le 1771 pour l’information et l’orientation. Le 112 restait réservé aux interventions urgentes et le 1733 au médecin de garde.</p><p><strong>Enseignement :</strong> une couche conversationnelle dédiée peut filtrer les demandes informatives, diffuser des consignes officielles horodatées et transférer immédiatement les urgences véritables.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="limits"><strong>Limite méthodologique assumée</strong><p>Les institutions publient surtout des totaux horaires ou journaliers. Elles ne publient pas systématiquement le nombre maximal de conversations actives à la même seconde. À partir du pic officiel de 4 000 appels par heure, on observe environ 67 arrivées par minute; le dimensionnement exact exige cependant les journaux téléphoniques par minute et les durées réelles.</p></div>
+    </section>
+
+    <section>
+      <div class="head"><h2>Sources principales</h2><p>Nous avons privilégié les comptes rendus parlementaires et les communications institutionnelles.</p></div>
+      <div class="sources">
+        <div class="source"><b>Tempête et pic 1722 · mars 2019</b><span>Chambre des représentants, séance plénière.</span><a href="https://www.lachambre.be/doc/PCRI/pdf/54/ip274.pdf">Consulter la source →</a></div>
+        <div class="source"><b>Tempête Eunice · février 2022</b><span>Questions 55025548C et 55025576C.</span><a href="https://www.dekamer.be/doc/CCRI/html/55/ic709x.html">Consulter la source →</a></div>
+        <div class="source"><b>1733 pendant le COVID</b><span>Rapport Données phares du SPF Santé publique.</span><a href="https://www.health.belgium.be/sites/default/files/uploads/fields/fpshealth_theme_file/blikvanger_covid_fr_web_0.pdf">Consulter la source →</a></div>
+        <div class="source"><b>Canicule et pic de 4 000 appels/h</b><span>Chambre des représentants, juin 2026.</span><a href="https://www.lachambre.be/doc/PCRI/html/56/ip132x.html">Consulter la source →</a></div>
+        <div class="source"><b>Incendie des Hautes Fagnes · 2026</b><span>Suivi officiel du Service public de Wallonie.</span><a href="https://wallonie.be/fr/actualites/incendie-dans-les-fagnes-ce-14-aout">Consulter la source →</a></div>
+        <div class="source"><b>Renfort militaire dans les Hautes Fagnes</b><span>Défense belge, 19 août 2026.</span><a href="https://www.mil.be/fr/news/dans-les-hautes-fagnes-les-panther-de-la-defense-renforcent-la-lutte-contre-l-incendie/">Consulter la source →</a></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="cta"><div><h2>Une base solide pour cadrer la suite.</h2><p>Cette analyse préliminaire permet d’établir les scénarios de charge, les parcours prioritaires et les données supplémentaires à demander avant un dimensionnement définitif.</p></div><div class="cta-badge">Banana Navy · Engineering &amp; AI</div></div>
+    </section>
+  </main>
+
+  <footer><div class="wrap">Banana Navy · Analyse préliminaire fondée sur les données publiques disponibles au 25 août 2026.</div></footer>
+</body>
+</html>
