@@ -134,6 +134,7 @@
           <a href="#chiffres">Chiffres</a>
           <a href="#calculateur">Calculateur</a>
           <a href="#simultaneite">Simultanéité</a>
+          <a href="#hautes-fagnes">Hautes Fagnes</a>
           <a href="#sources">Sources</a>
           <a href="#developpement">Implications bots</a>
         </div>
@@ -277,6 +278,41 @@
       </div>
     </section>
 
+    <section id="hautes-fagnes">
+      <div class="section-head">
+        <h2>Cas réel : incendies des Hautes Fagnes</h2>
+        <p>Les données disponibles décrivent très bien l’ampleur opérationnelle, mais pas encore le nombre exact d’appels reçus par le 112 ou le 1771.</p>
+      </div>
+      <div class="table-shell">
+        <table>
+          <thead><tr><th>Incendie</th><th>Surface touchée</th><th>Moyens documentés</th><th>Gestion téléphonique</th><th>Qualité de la donnée</th></tr></thead>
+          <tbody>
+            <tr><td><strong>25 avril 2011</strong></td><td><strong>≈ 1 200 ha</strong></td><td>Plus de 300 intervenants, 15 services d’incendie, plus de 70 véhicules lourds et 2 hélicoptères de la police fédérale.</td><td>Aucun volume d’appels retrouvé.</td><td><span class="badge low">Parlement + SPW</span></td></tr>
+            <tr><td><strong>29 mai 2023</strong></td><td><strong>155 ha</strong></td><td>Environ 130 pompiers encore mobilisés le lendemain; renforts allemands et Protection civile.</td><td>Aucun volume d’appels retrouvé.</td><td><span class="badge low">Parlement wallon</span></td></tr>
+            <tr><td><strong>14–24 août 2026</strong></td><td><strong>≈ 3 000 ha</strong></td><td>Près de 500 intervenants et plus de 120 véhicules; dont 40 pompiers militaires et 6 véhicules Panther.</td><td>112 sous forte charge; activation du <strong>1771</strong> pour l’information et l’orientation.</td><td><span class="badge high">Crise récente</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="questions" style="margin-top:16px">
+        <article>
+          <div class="meta">Routage public · Août 2026</div>
+          <h3>Trois numéros, trois intentions</h3>
+          <p><strong>112</strong> : danger vital ou intervention urgente.<br><strong>1771</strong> : information, orientation, aide spontanée et questions sur la crise.<br><strong>1733</strong> : médecin généraliste de garde.</p>
+          <div class="numbers">Le 1771 était annoncé en français et néerlandais, de 7 h à 22 h le 24 août.</div>
+        </article>
+        <article>
+          <div class="meta">Donnée manquante</div>
+          <h3>Le volume téléphonique reste à obtenir</h3>
+          <p>Le SPF Santé indique que les opérateurs du 112 ont dû être soutenus face à un volume important d’appels. Aucun bilan public trouvé ne précise les appels reçus, décrochés, abandonnés, transférés au 1771 ou le pic simultané.</p>
+          <div class="numbers">À demander : données par tranches de 1 ou 5 minutes, du 14 au 24 août 2026.</div>
+        </article>
+      </div>
+      <div class="warning" style="margin-top:16px">
+        <div aria-hidden="true">i</div>
+        <div><strong>Enseignement direct pour le bot</strong><p>Le bot d’information de crise doit être séparé du parcours d’urgence : détection immédiate du danger et transfert 112, réponses officielles horodatées pour le reste, gestion FR/NL, et refus de promettre une intervention. Le 1771 constitue ici le modèle réel de canal de débordement informationnel.</p></div>
+      </div>
+    </section>
+
     <section id="sources">
       <div class="section-head">
         <h2>Questions parlementaires</h2>
@@ -295,6 +331,10 @@
         <article><div class="meta">Mars 2020 · SPF Santé publique</div><h3>Record d’appels au 1733 pendant le COVID</h3><p>Le rapport officiel montre un pic proche de 10 000 à 11 000 appels quotidiens lors du week-end des 14 et 15 mars.</p><a href="https://www.health.belgium.be/sites/default/files/uploads/fields/fpshealth_theme_file/blikvanger_covid_fr_web_0.pdf" target="_blank" rel="noreferrer">Ouvrir le rapport officiel →</a></article>
         <article><div class="meta">11 juin 2025 · Question 56005241C</div><h3>État des centrales 1733 et 112</h3><p>Fonctionnement en nuage régional, priorité du 112 et attente moyenne 112 de 9 secondes en 2024.</p><a href="https://www.lachambre.be/doc/CCRI/pdf/56/ic142.pdf" target="_blank" rel="noreferrer">Ouvrir le compte rendu →</a></article>
         <article><div class="meta">Juin 2026 · Canicule</div><h3>Pic horaire 112 et 1733</h3><p>Environ 19 300 appels le dimanche et un pic annoncé de 4 000 appels en 60 minutes, contre environ 6 000 par jour habituellement.</p><a href="https://www.lachambre.be/doc/PCRI/html/56/ip132x.html" target="_blank" rel="noreferrer">Ouvrir le compte rendu officiel →</a></article>
+        <article><div class="meta">Avril 2011 · Hautes Fagnes</div><h3>Incendie historique et moyens engagés</h3><p>Plus de 300 intervenants, quinze services d’incendie, plus de 70 véhicules lourds et deux hélicoptères.</p><a href="https://www.lachambre.be/doc/CCRI/pdf/53/ic217x.pdf" target="_blank" rel="noreferrer">Ouvrir le compte rendu officiel →</a></article>
+        <article><div class="meta">Mai 2023 · Hautes Fagnes</div><h3>Incendie de 155 hectares</h3><p>Question et réponse du Parlement wallon sur les conséquences, la prévention et le suivi du site.</p><a href="https://www.parlement-wallonie.be/content/print.php?iddoc=121810&amp;print=interp-questions-voir.php&amp;type=32" target="_blank" rel="noreferrer">Ouvrir la question parlementaire →</a></article>
+        <article><div class="meta">Août 2026 · Hautes Fagnes</div><h3>Situation officielle et routage 1771</h3><p>Incendie d’environ 3 000 hectares, mesures de sécurité et répartition entre information, urgence et garde médicale.</p><a href="https://wallonie.be/fr/actualites/incendie-dans-les-fagnes-ce-14-aout" target="_blank" rel="noreferrer">Ouvrir le suivi officiel wallon →</a></article>
+        <article><div class="meta">Août 2026 · Défense</div><h3>Renfort des véhicules Panther</h3><p>Quarante pompiers militaires et six véhicules spécialisés engagés, au sein d’un dispositif d’environ 500 personnes.</p><a href="https://www.mil.be/fr/news/dans-les-hautes-fagnes-les-panther-de-la-defense-renforcent-la-lutte-contre-l-incendie/" target="_blank" rel="noreferrer">Ouvrir le bilan de la Défense →</a></article>
       </div>
     </section>
   </main>
