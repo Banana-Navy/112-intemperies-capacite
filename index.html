@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Étude Banana Navy des données parlementaires belges sur les volumes d'appels 112 et 1722 pendant les intempéries, structurées pour le dimensionnement de voicebots.">
-  <title>Banana Navy — Charge 112 / 1722 et bots d'urgence</title>
+  <meta name="description" content="Étude Banana Navy des données belges sur les volumes d'appels 112, 1722 et 1733 pendant les crises et intempéries, structurées pour le dimensionnement de voicebots.">
+  <title>Banana Navy — Charge 112 / 1722 / 1733 et bots d'urgence</title>
   <style>
     :root {
       --ink: #10233f;
@@ -51,7 +51,7 @@
     .hero-note { display: inline-flex; gap: 9px; align-items: center; margin-top: 25px; padding: 9px 13px; color: var(--blue-dark); border: 1px solid #b9d3f8; border-radius: 999px; background: #f1f7ff; font-size: .86rem; }
 
     main { padding-bottom: 80px; }
-    .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: -37px; }
+    .summary-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: -37px; }
     .metric { background: var(--white); padding: 24px; border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); }
     .metric .value { display: block; color: var(--blue-dark); font-size: clamp(1.55rem, 3vw, 2.25rem); font-weight: 850; letter-spacing: -.04em; }
     .metric .label { display: block; margin-top: 4px; color: var(--muted); font-size: .85rem; }
@@ -133,12 +133,13 @@
         <div class="links">
           <a href="#chiffres">Chiffres</a>
           <a href="#calculateur">Calculateur</a>
+          <a href="#simultaneite">Simultanéité</a>
           <a href="#sources">Sources</a>
           <a href="#developpement">Implications bots</a>
         </div>
       </nav>
       <div class="hero">
-        <div class="eyebrow">Belgique · 112 / 1722 · Données parlementaires</div>
+        <div class="eyebrow">Belgique · 112 / 1722 / 1733 · Données publiques</div>
         <h1>Dimensionner nos bots pour les pics d’intempéries.</h1>
         <p>Une base de travail sourcée pour estimer les volumes, la capacité humaine nécessaire et les stratégies de débordement des assistants vocaux.</p>
         <div class="hero-note">● Données observées entre 2017 et 2022</div>
@@ -152,6 +153,7 @@
       <div class="metric"><span class="value">49 247</span><span class="label">appels 1722 en deux jours · Eunice 2022</span></div>
       <div class="metric"><span class="value">12 135</span><span class="label">demandes en ligne · Eunice 2022</span></div>
       <div class="metric"><span class="value">1–2 min</span><span class="label">durée minimale annoncée par appel</span></div>
+      <div class="metric"><span class="value">4 000/h</span><span class="label">pic 112/1733 observé · juin 2026</span></div>
     </div>
 
     <section id="chiffres">
@@ -169,6 +171,8 @@
             <tr><td><strong>Tempête Ciara</strong></td><td>févr. 2020</td><td>1722</td><td><strong>&gt; 50 000</strong></td><td><span class="badge extreme">Extrême</span></td><td>Inclut les rappels répétés d’un même appelant.</td></tr>
             <tr><td><strong>Tempête Eunice</strong></td><td>18–19 févr. 2022</td><td>1722 téléphone</td><td><strong>49 247</strong></td><td><span class="badge extreme">Extrême</span></td><td>Capacité terrain dépassée à certains moments.</td></tr>
             <tr><td><strong>Tempête Eunice</strong></td><td>18–19 févr. 2022</td><td>Guichet web 1722</td><td><strong>12 135</strong></td><td><span class="badge high">Élevé</span></td><td>Canal asynchrone à intégrer au dimensionnement.</td></tr>
+            <tr><td><strong>Premier week-end COVID</strong></td><td>14–15 mars 2020</td><td>1733</td><td><strong>≈ 10 000–11 000/jour</strong></td><td><span class="badge extreme">Record 1733</span></td><td>Lecture du graphique officiel; nombreux appels d'information COVID.</td></tr>
+            <tr><td><strong>Canicule</strong></td><td>28 juin 2026</td><td>Centrales 112 + 1733</td><td><strong>19 300/jour · pic 4 000/h</strong></td><td><span class="badge extreme">Extrême</span></td><td>Moyenne normale annoncée : environ 6 000 appels/jour.</td></tr>
           </tbody>
         </table>
       </div>
@@ -185,11 +189,13 @@
           <div class="fields">
             <label>Scénario
               <select id="scenario">
-                <option value="80807">Pic mars 2019 · 80 807</option>
-                <option value="49247">Eunice téléphone · 49 247</option>
-                <option value="61382">Eunice multicanal · 61 382</option>
-                <option value="50000">Ciara · 50 000</option>
-                <option value="300">Activation faible · 300</option>
+                <option value="80807" data-window="24">Pic mars 2019 · 80 807</option>
+                <option value="49247" data-window="48">Eunice téléphone · 49 247</option>
+                <option value="61382" data-window="48">Eunice multicanal · 61 382</option>
+                <option value="50000" data-window="24">Ciara · 50 000</option>
+                <option value="10000" data-window="24">1733 · pic COVID ≈ 10 000/jour</option>
+                <option value="4000" data-window="1">112/1733 · pic canicule 4 000/heure</option>
+                <option value="300" data-window="24">Activation faible · 300</option>
                 <option value="custom">Personnalisé</option>
               </select>
             </label>
@@ -231,6 +237,28 @@
       </div>
     </section>
 
+    <section id="simultaneite">
+      <div class="section-head">
+        <h2>Combien d’appels simultanés ?</h2>
+        <p>Les sources publiques donnent des appels par jour ou par heure, mais pas le nombre maximal de connexions actives à une seconde précise.</p>
+      </div>
+      <div class="table-shell">
+        <table>
+          <thead><tr><th>Donnée</th><th>Statut</th><th>Calcul</th><th>Résultat utile</th></tr></thead>
+          <tbody>
+            <tr><td><strong>4 000 appels en 60 minutes</strong></td><td><span class="badge low">Mesuré</span></td><td>4 000 ÷ 60</td><td><strong>≈ 67 arrivées par minute</strong></td></tr>
+            <tr><td>Traitement moyen de 1 minute</td><td><span class="badge high">Estimation</span></td><td>67/min × 1 min</td><td><strong>≈ 67 conversations simultanées</strong> en moyenne</td></tr>
+            <tr><td>Traitement moyen de 2 minutes</td><td><span class="badge high">Estimation</span></td><td>67/min × 2 min</td><td><strong>≈ 133 conversations simultanées</strong> en moyenne</td></tr>
+            <tr><td>Dimensionnement prudent + 30 %</td><td><span class="badge high">Hypothèse</span></td><td>133 × 1,30</td><td><strong>≈ 174 canaux concurrents minimum</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warning" style="margin-top:16px">
+        <div aria-hidden="true">i</div>
+        <div><strong>Ce n’est pas une capacité technique officielle</strong><p>Le chiffre de 4 000/h est une mesure d’arrivée. Les 67 à 174 canaux sont une conversion de dimensionnement si les arrivées sont réparties régulièrement. Un pic concentré sur quelques minutes, les rappels et les conversations longues peuvent exiger davantage. Il faut obtenir les logs téléphoniques par tranche de 1 ou 5 minutes pour calculer le vrai pic de concurrence.</p></div>
+      </div>
+    </section>
+
     <section id="developpement">
       <div class="section-head">
         <h2>Implications pour nos bots</h2>
@@ -243,6 +271,9 @@
         <div class="dev-card"><b>4. Message de charge</b><p>Annoncer honnêtement la file et l’absence de délai garanti. Ne jamais laisser croire qu’une intervention est planifiée sans confirmation du dispatching.</p></div>
         <div class="dev-card"><b>5. Observabilité</b><p>Suivre <code>attempts</code>, <code>unique_callers</code>, <code>completed_intakes</code>, <code>duplicates</code>, <code>transfers_112</code> et <code>abandon_rate</code>.</p></div>
         <div class="dev-card"><b>6. Mode dégradé</b><p>Prévoir une réponse courte si les API terrain sont indisponibles : collecte minimale, conservation sûre, accusé de réception sans fausse promesse.</p></div>
+        <div class="dev-card"><b>7. Priorité 112</b><p>Le 1733 et le 1722 sont actuellement traités par les mêmes opérateurs, mais le 112 reste prioritaire. Le bot doit préserver une voie de transfert urgente sans file non urgente.</p></div>
+        <div class="dev-card"><b>8. Mesure de concurrence</b><p>Enregistrer <code>concurrent_sessions_max</code>, les arrivées par minute et les percentiles de durée P50/P95, plutôt que seulement un total journalier.</p></div>
+        <div class="dev-card"><b>9. Routage régional</b><p>Le 1733 fonctionne en nuage par région linguistique : un appel peut être présenté à un opérateur libre d’une autre province du même rôle linguistique.</p></div>
       </div>
     </section>
 
@@ -261,11 +292,14 @@
         <article><div class="meta">19 février 2020 · Question 55003305C</div><h3>Tempête Ciara et centres d’urgence</h3><p>Éric Thiébaut demande le nombre d’appels reçus, traités et restés sans réponse.</p><div class="numbers">Plus de 50 000 compositions du 1722</div><a href="https://www.dekamer.be/doc/CCRI/html/55/ic116x.html" target="_blank" rel="noreferrer">Ouvrir le compte rendu →</a></article>
         <article><div class="meta">23 février 2022 · Questions 55025548C & 55025576C</div><h3>Tempête Eunice et numéro 1722</h3><p>Nabil Boukili et Éric Thiébaut interrogent la ministre sur la charge et la coordination.</p><div class="numbers">49 247 appels + 12 135 demandes web</div><a href="https://www.dekamer.be/doc/CCRI/html/55/ic709x.html" target="_blank" rel="noreferrer">Ouvrir le compte rendu →</a></article>
         <article><div class="meta">Mars 2022 · Caroline Taquin</div><h3>Capacité horaire et renforts humains</h3><p>Question explicite sur le nombre d’agents et la capacité par heure en alerte jaune ou orange; chiffres non fournis oralement.</p><a href="https://www.lachambre.be/doc/CCRI/pdf/55/ic716x.pdf" target="_blank" rel="noreferrer">Ouvrir le compte rendu →</a></article>
+        <article><div class="meta">Mars 2020 · SPF Santé publique</div><h3>Record d’appels au 1733 pendant le COVID</h3><p>Le rapport officiel montre un pic proche de 10 000 à 11 000 appels quotidiens lors du week-end des 14 et 15 mars.</p><a href="https://www.health.belgium.be/sites/default/files/uploads/fields/fpshealth_theme_file/blikvanger_covid_fr_web_0.pdf" target="_blank" rel="noreferrer">Ouvrir le rapport officiel →</a></article>
+        <article><div class="meta">11 juin 2025 · Question 56005241C</div><h3>État des centrales 1733 et 112</h3><p>Fonctionnement en nuage régional, priorité du 112 et attente moyenne 112 de 9 secondes en 2024.</p><a href="https://www.lachambre.be/doc/CCRI/pdf/56/ic142.pdf" target="_blank" rel="noreferrer">Ouvrir le compte rendu →</a></article>
+        <article><div class="meta">Juin 2026 · Canicule</div><h3>Pic horaire 112 et 1733</h3><p>Environ 19 300 appels le dimanche et un pic annoncé de 4 000 appels en 60 minutes, contre environ 6 000 par jour habituellement.</p><a href="https://www.lachambre.be/doc/PCRI/html/56/ip132x.html" target="_blank" rel="noreferrer">Ouvrir le compte rendu officiel →</a></article>
       </div>
     </section>
   </main>
 
-  <footer><div class="wrap">Banana Navy · Engineering &amp; AI · Document de travail pour le développement de bots · Sources : Chambre des représentants de Belgique · Dernière structuration : août 2026</div></footer>
+  <footer><div class="wrap">Banana Navy · Engineering &amp; AI · Document de travail pour le développement de bots · Sources : Chambre et SPF Santé publique · Mise à jour : août 2026</div></footer>
 
   <script>
     const el = id => document.getElementById(id);
@@ -291,7 +325,10 @@
     }
 
     el('scenario').addEventListener('change', event => {
-      if (event.target.value !== 'custom') el('calls').value = event.target.value;
+      if (event.target.value !== 'custom') {
+        el('calls').value = event.target.value;
+        el('window').value = event.target.selectedOptions[0].dataset.window || 24;
+      }
       calculate();
     });
     fields.forEach(id => el(id).addEventListener('input', calculate));
